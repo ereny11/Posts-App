@@ -1,0 +1,20 @@
+{
+    "posts":[
+        { 
+            "title": "Lifestyle", 
+            "body": "Taking care of yourself is crucial in pursuing goals. Self-care ensures physical and mental well-being.",
+            "id": 1
+        },
+        { 
+            "title": "Fitness", 
+            "body": "Looking for an easy and healthy meal prep recipe? Try this: baked chicken with roasted vegetables.",
+            "id": 2
+        },
+        {
+            "title": "Marketing",
+            "body": "Our agency recently completed a project that involved designing a new website for a local business.",
+            "id": 3
+        }
+    ]
+
+}
