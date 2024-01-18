@@ -16,12 +16,6 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 npm install
 ```
 
-## Json Setup
-npm install json-server
-
-## Run Json Setup
-json-server --watch data/db.json
-
 ### Compile and Hot-Reload for Development
 
 ```sh
