@@ -1,11 +1,11 @@
 <template>
   <main class="posts-page">
     <h1>All Posts</h1>
-    <div v-if="error">
-     {{ error }}
+    <div v-if="errorFromStore">
+     {{ errorFromStore }}
     </div>
-    <ul v-if="allPosts.length">
-      <li v-for="post in allPosts" :key="post.id">
+    <ul v-if="postsFromStore.length">
+      <li v-for="post in postsFromStore" :key="post.id">
         <h3 contenteditable >{{ post.title }}</h3>
         <p contenteditable >{{ post.body }}</p>
         <div class="container">
@@ -25,34 +25,37 @@
         </div>
       </li>
     </ul>
-    <div v-else>Loading...</div>
+    <div v-else>No Data Found</div>
   </main>
 </template>
 
 <script>
+import posts from '../../data/db.json'
+import axios from 'axios';
+import store from '../store/index.js'
 
 export default {
   data() {
     return {
-      allPosts: [],
-      error: null,
       contentHeading: null,
       contentMessage: null,
     };
   },
-  mounted() {
-    fetch("http://localhost:3000/posts")
-      .then((res) => res.json())
-      .then((data) => (this.allPosts = data))
-      .catch((err) => {
-        this.error = "No Data Available"
-        console.log(err.message)
-      });
+  computed: {
+    postsFromStore() {
+       return this.$store.getters.getPosts;
+    },
+    errorFromStore(){
+      return this.$store.getters.getErrors;
+    }
+
+  },
+  mounted(){
+    this.$store.dispatch('showAllPosts')
   },
   methods: {
-      deletePost(index) {
-        const all = this.allPosts.filter( post => post.id != index); 
-        this.allPosts = all
+      deletePost(index) { 
+       this.$store.dispatch('removeItem', index)
       }
   }
 };
