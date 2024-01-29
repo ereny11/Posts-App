@@ -7,25 +7,19 @@
     <ul v-if="postsFromStore.length">
       <li v-for="post in postsFromStore" :key="post.id">
         <h3 >{{ post.title }}</h3>
-        <!-- <p contenteditable >{{ post.body }}</p> -->
-
         <div v-for="field in fields" :key="post.id" class="editable-field">
-          <div v-if="editedFieldId === post.id">
-            <input type="text" v-model="post.body" :ref="`field${post.id}`"  class="form-control editable-input"/>
-            <button class="btn" @click.prevent="toggleEdit">
+          <div class="editing" v-if="editedFieldId === post.id">
+            <textarea type="text" v-model="post.body" :ref="`field${post.id}`"  class="form-control editable-input"></textarea>
+            <button class="save-btn btn" @click.prevent="toggleEdit">
               <div>Save</div>
             </button>
           </div>
           <div v-else>
             <p >{{ post.body }}</p>
-            <!-- <span>
-              {{ field.value }}
-            </span> -->
-            <!-- <button class="btn" @click.prevent="toggleEdit(post.id)">Edit</button> -->
           </div>
         </div>
 
-        <div class="container">
+        <div class="container" v-if="!showField">
           <div class="row">
             <div class="col-1">
 
@@ -48,10 +42,6 @@
 </template>
 
 <script>
-import posts from '../../data/db.json'
-import axios from 'axios';
-import store from '../store/index.js'
-
 export default {
   data() {
     return {
@@ -62,12 +52,9 @@ export default {
         {
           id: 1,
           value: "",
-        },
-        // {
-        //   id: 2,
-        //   value: "Editable field 2",
-        // },
+        }
       ],
+      showField: false,
     };
   },
   computed: {
@@ -92,11 +79,13 @@ export default {
         this.$nextTick(() => {
           if (this.$refs["field" + id]) {
             this.$refs["field" + id][0].focus();
+            this.showField= true
           }
         });
       } else {
         this.editedFieldId = null;
       }
+      this.showField= false
     },
   }
 };
@@ -133,13 +122,26 @@ li p {
 li i{
   font-size: 14px;
 }
+.editing{
+  text-align: right;
+}
 .editable-input{
   width: 100%;
   border-radius: 4px;
   border: 1px solid lightgray;
+  margin-bottom: 10px;
 }
 .editable-input:focus{
   box-shadow: none;
   border-color: lightgray;
+}
+.save-btn{
+  background-color: lightgray;
+  border: 1px solid lightgray;
+  color: rgb(7, 57, 132);
+}
+.save-btn:hover{
+  background-color: rgb(7, 57, 132);
+  color: lightgray;
 }
 </style>
